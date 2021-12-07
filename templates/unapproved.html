@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Unapproved
+{% endblock %}
+
+{% block main %}
+{% if not users %}
+<h3>No Users pending for Approval</h3>
+{% else %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email Address</th>
+            <th>Role</th>
+            <th>Button</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td><a href="/approve?id={{ user.id }}" class="btn btn-primary">Approve</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Test
+{% endblock %}
+
+{% block main %}
+<!-- Implement Timer -->
+<h3>Time Left : 00:07:32</h3>
+
+<br> <br>
+
+
+<form autocomplete="off" action="/test" method="post">
+<ol>
+    {% for question in questions %}
+    <li>
+        <div class="form_group"></div>
+        <p id="{{ question.id }}">
+            {{ question.question }}
+        </p>
+        <input type="radio" id="{{ question.id }} A" name="{{ question.id }}" value="A">
+        <label for="{{ question.id }} A">{{ question.option_a }}</label>
+        <br>
+        <input type="radio" id="{{ question.id }} B" name="{{ question.id }}" value="B">
+        <label for="{{ question.id }} B">{{ question.option_b }}</label>
+        <br>
+        <input type="radio" id="{{ question.id }} C" name="{{ question.id }}" value="C">
+        <label for="{{ question.id }} C">{{ question.option_c }}</label>
+        <br>
+        <input type="radio" id="{{ question.id }} D" name="{{ question.id }}" value="D">
+        <label for="{{ question.id }} D">{{ question.option_d }}</label>
+        <br>
+        <br>
+        </div>
+    </li>
+    {% endfor %}
+</ol>
+<input type="hidden" name="timeout" value="False">
+<button class="btn btn-primary" type="submit">Submit Test</button>
+</form>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Update Question
+{% endblock %}
+
+{% block main %}
+<form autocomplete="off" action="/update" method="post">
+    <!-- Question -->
+    <div class="form-group">
+        <textarea class="form-control" rows="5" name="question" placeholder="Question Body" required autofocus>{{ details.question }}</textarea>
+    </div>
+
+    <!-- Options -->
+    <div class="form-group">
+        <input class="form-control" name="option_a" placeholder="Option A" type="text" value="{{ details.option_a }}" required>
+    </div>
+    <div class="form-group">
+        <input class="form-control" name="option_b" placeholder="Option B" type="text" value="{{ details.option_b }}" required>
+    </div>
+    <div class="form-group">
+        <input class="form-control" name="option_c" placeholder="Option C" type="text" value="{{ details.option_c }}" required>
+    </div>
+    <div class="form-group">
+        <input class="form-control" name="option_d" placeholder="Option D" type="text" value="{{ details.option_d }}" required>
+    </div>
+
+    <!-- Answer -->
+    <div class="form-group">
+        <select name="answer" required>
+            <option disabled value="">Answer</option>
+            {% for option in options %}
+                {% if option == details.answer %}
+                <option selected value="{{ option }}">{{ option }}</option>
+                {% else %}
+                <option value="{{ option }}">{{ option }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    <br> <br> <br> <br>
+    
+    <!-- Submit -->
+    <input type="hidden" name="id" value="{{ details.id }}">
+    <button class="btn btn-primary" type="submit">Update Question</button>
+</form>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Test Result
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Detail</td>
+            <td>Value</td>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- First Name -->
+        <tr>
+            <td>First Name</td>
+            <td>{{ details['first_name'] }}</td>
+        </tr>
+        <!-- Middle Name -->
+        <tr>
+            <td>Middle Name</td>
+            <td>{{ details['middle_name'] }}</td>
+        </tr>
+        <!-- Last Name -->
+        <tr>
+            <td>Last Name</td>
+            <td>{{ details['last_name'] }}</td>
+        </tr>
+        <!-- Email -->
+        <tr>
+            <td>Email</td>
+            <td>{{ details['email'] }}</td>
+        </tr>
+        <!-- Number of Questions (Maximum) -->
+        <tr>
+            <td>Number of Questions (Maximum)</td>
+            <td>{{ details['max'] }}</td>
+        </tr>
+        <!-- Number of Questions (Attempted) -->
+        <tr>
+            <td>Number of Questions (Attempted)</td>
+            <td>{{ details['attempted'] }}</td>
+        </tr>
+        <!-- Number of Questions (Correct) -->
+        <tr>
+            <td>Number of Questions (Correct)</td>
+            <td>{{ details['correct'] }}</td>
+        </tr>
+        <!-- Percentage Score -->
+        <tr>
+            <td>Percentage Score</td>
+        {% if details['correct'] and details['max'] %}
+            <td>{{ details['correct'] / details['max'] * 100 }} %</td>
+        {% else %}
+            <td>{{ 0.00 }} %</td>
+        {% endif %}
+        </tr>
+        <!-- Accuracy -->
+        <tr>
+            <td>Accuracy</td>
+        {% if details['correct'] and details['attempted'] %}
+            <td>{{ details['correct'] / details['attempted'] * 100 }} %</td>
+        {% else %}
+            <td>{{ 0.00 }} %</td>
+        {% endif %}
+        </tr>
+    </tbody>
+</table>
+<!-- <a href="/scorecards/{{ details['id'] }}.pdf" target="_blank">
+    View ScoreCard
+</a>
+<br>
+<a href="/scorecards/{{ details['id'] }}.pdf" download="ScoreCard">
+    Download ScoreCard
+</a> -->
+{% endblock %}

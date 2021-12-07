@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Approve
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Detail</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Email -->
+        <tr>
+            <td>Email</td>
+            <td>{{ details['email'] }}</td>
+        </tr>
+        <!-- First Name -->
+        <tr>
+            <td>First Name</td>
+            <td>{{ details['first_name'] }}</td>
+        </tr>
+        <!-- Middle Name -->
+        <tr>
+            <td>Middle Name</td>
+            <td>{{ details['middle_name'] }}</td>
+        </tr>
+        <!-- Last Name -->
+        <tr>
+            <td>Last Name</td>
+            <td>{{ details['last_name'] }}</td>
+        </tr>
+        <!-- Role -->
+        <tr>
+            <td>Role</td>
+            <td>{{ details['role'] }}</td>
+        </tr>
+        <!-- Registered -->
+        <tr>
+            <td>Registered On</td>
+            <td>{{ details['registered'] }}</td>
+        </tr>
+</table>
+<form method="post" action="/approve" class="inline">
+    <input type="hidden" name="id" value="{{ id }}">
+    <button class="btn btn-primary" type="submit">Approve User</button>
+</form>
+{% endblock %}

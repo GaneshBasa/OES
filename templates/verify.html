@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Verify
+{% endblock %}
+
+{% block main %}
+    <form action="/verify" method="post">
+        <!-- OTP -->
+        <div class="form-group">
+            <input class="form-control" name="otp" placeholder="Enter OTP" type="text" required autofocus>
+        </div>
+        <!-- Submit -->
+        <button class="btn btn-primary" type="submit">Verify</button>
+    </form>
+{% endblock %}

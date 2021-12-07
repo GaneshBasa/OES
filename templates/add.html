@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Question
+{% endblock %}
+
+{% block main %}
+<form autocomplete="off" action="/add" method="post">
+    <!-- Question -->
+    <div class="form-group">
+        <textarea class="form-control" rows="5" name="question" placeholder="Question Body" required autofocus></textarea>
+    </div>
+
+    <!-- Options -->
+    {% for option in options %}
+    <div class="form-group">
+        <input class="form-control" name="option_{{ option.lower() }}" placeholder="Option {{ option }}" type="text" required>
+    </div>
+    {% endfor %}
+
+    <!-- Answer -->
+    <div class="form-group">
+        <select class="form-control" name="answer" required>
+            <option disabled selected value="">Answer</option>
+            {% for option in options %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <br> <br> <br> <br>
+    
+    <!-- Submit -->
+    <button class="btn btn-primary" type="submit">Add Question</button>
+</form>
+{% endblock %}

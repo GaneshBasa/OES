@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+<h3>Profile</h3>
+
+<br> <br>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Detail</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Email -->
+        <tr>
+            <td>Email</td>
+            <td>
+                {{ session.email }}
+                {% if session.verified %}
+                (Verified)
+                {% else %}
+                <a href="/verify">{Verify}</a>
+                {% endif %}
+            </td>
+        </tr>
+        <!-- First Name -->
+        <tr>
+            <td>First Name</td>
+            <td>{{ session.first_name }}</td>
+        </tr>
+        <!-- Middle Name -->
+        <tr>
+            <td>Middle Name</td>
+            <td>{{ session.middle_name }}</td>
+        </tr>
+        <!-- Last Name -->
+        <tr>
+            <td>Last Name</td>
+            <td>{{ session.last_name }}</td>
+        </tr>
+        <!-- Role -->
+        <tr>
+            <td>Role</td>
+            <td>{{ session.role }}</td>
+        </tr>
+        <!-- Registered -->
+        <tr>
+            <td>Registered On</td>
+            <td>{{ session.registered }}</td>
+        </tr>
+        <!-- Approval -->
+        <tr>
+            <td>Approval</td>
+            <td>
+                {% if session.approved %}
+                Approved
+                {% else %}
+                Pending Approval
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

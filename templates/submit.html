@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Submit Test Response
+{% endblock %}
+
+{% block main %}
+<p>
+    {% if timeout %}
+    The test has been submitted automatically by the system as the timer has run out.
+    {% else %}
+    The test has been submitted by you.
+    {% endif %}
+</p>
+<a href="/result" target="_blank">Check Result</a>
+<br>
+<a href="/feedback" target="_blank">Provide Feedback</a>
+{% endblock %}

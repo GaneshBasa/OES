@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <h2>Welcome {{ session.first_name }} {{ session.middle_name }} {{ session.last_name }}</h2>
+    <br> <br>
+    <h3>User Role : {{ session.role }}</h3>
+    <br><br>
+    {% if session.role == "Admin" %}
+    <a class="btn btn-primary" href="/unapproved">Approve Users</a>
+    {% endif %}
+    {% if session.role == "Teacher" %}
+    <a class="btn btn-primary" href="/add">Add New Question</a>
+    <br> <br>
+    <a class="btn btn-primary" href="/questions">Edit Questions</a>
+    {% endif %}
+    {% if session.role == "Student" %}
+    <a class="btn btn-primary" href="/test">Attempt Test</a>
+    <br> <br>
+    <a class="btn btn-primary" href="/result">Check Result</a>
+    {% endif %}
+{% endblock %}
