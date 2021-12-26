@@ -36,6 +36,9 @@ db = SQL("sqlite:///misc/oes.db")
 
 # List Roles
 roles = ['Admin', 'Teacher', 'Student']
+# Default Rows of Data per Page & Pagination Gap
+def_rows_per_page = 10
+def_gap = 2
 
 
 """ Routes """
@@ -359,9 +362,24 @@ def questions():
 	if session.get("role") != "Teacher":
 		return apology("unauthorized action")
 
-	rows = db.execute("SELECT id, question FROM questions ORDER BY id LIMIT 10")
+	rows = db.execute("SELECT COUNT(id) FROM questions")
+	pages = rows[0]["COUNT(id)"] // def_rows_per_page
 
-	return render_template("questions.html", questions = rows)
+	if not request.args.get("page"):
+		return redirect("/questions?page=1")
+
+	page = request.args.get("page", type = int)
+
+	if page < 1:
+		return redirect("/questions?page=1")
+
+	if page > pages:
+		return redirect(f"/questions?page={pages}")
+
+	offset = (page - 1) * def_rows_per_page
+	rows = db.execute("SELECT id, question FROM questions ORDER BY id LIMIT ? OFFSET ?", def_rows_per_page, offset)
+
+	return render_template("questions.html", questions = rows, page = page, pages = pages, gap = def_gap)
 
 
 # Update

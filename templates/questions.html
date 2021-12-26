@@ -1,24 +1,82 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Questions Bank
+	Questions Bank
 {% endblock %}
 
 {% block main %}
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Question</th>
-            <th>Button</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for question in questions %}
-        <tr>
-            <td>{{ question.question }}</td>
-            <td><a href="/update?id={{ question.id }}" class="btn btn-primary">Edit</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
+	<thead>
+		<tr>
+			<th>Question</th>
+			<th>Button</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for question in questions %}
+		<tr>
+			<td>{{ question.question }}</td>
+			<td><a href="/update?id={{ question.id }}" class="btn btn-primary">Edit</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
 </table>
+
+{% if pages > 1 %}
+	<!-- Pagination Links-->
+	<div class="text-right">
+		<!-- First Page -->
+		<a href="/questions" class="btn btn-outline-dark {% if page == 1 %}disabled{% endif %}">
+			&laquo;
+		</a>
+		
+		<!-- Previous Page -->
+		<a href="/questions?page={{ page - 1 }}" class="btn btn-outline-dark {% if page == 1 %}disabled{% endif %}">
+			&lsaquo;
+		</a>
+
+		<!-- Hide Extra Previous Pages -->
+		{% if page - 1 > gap %}
+			<a class="btn btn-outline-dark disabled">
+				...
+			</a>
+		{% endif %}
+
+		<!-- Loop through the number of pages to display a link for each-->
+		{% for page_num in range(page - gap, page + gap + 1) %}
+			{% if page_num in range(1, pages + 1) %}
+				{% if page == page_num %}
+					<a href="{{ url_for('questions', page = page_num) }}" class="btn btn-dark">
+						{{ page_num }}
+					</a>
+				{% else %}
+					<a href="{{ url_for('questions', page = page_num) }}" class="btn btn-outline-dark">
+						{{ page_num }}
+					</a>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+
+		<!-- Hide Extra Next Pages -->
+		{% if pages - page > gap %}
+			<a class="btn btn-outline-dark disabled">
+				...
+			</a>
+		{% endif %}
+		
+		<!-- Next Page -->
+		<a href="/questions?page={{ page + 1 }}" class="btn btn-outline-dark {% if page == pages %}disabled{% endif %}">
+			&rsaquo;
+		</a>
+
+		<!-- Last Page -->
+		<a href="/questions?page={{ pages }}" class="btn btn-outline-dark {% if page == pages %}disabled{% endif %}">
+			&raquo;
+		</a>
+	</div>
+
+	<p class="text-right mt-3">
+		Showing Page {{ page }} of {{ pages }}
+	</p>
+{% endif %}
 {% endblock %}
