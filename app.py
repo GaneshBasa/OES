@@ -7,6 +7,7 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 
 from helpers import apology, login_required, sendOTP, srvlog
 
@@ -39,6 +40,7 @@ roles = ['Admin', 'Teacher', 'Student']
 # Default Rows of Data per Page & Pagination Gap
 def_rows_per_page = 10
 def_gap = 2
+profile_images_folder = 'D:\Documents\Projects\OES\static\profile_images'
 
 
 """ Routes """
@@ -147,14 +149,22 @@ def register():
 		if form_password != form_confirm:
 			return apology("passwords don't match")
 
-		# Gather details from form
-		form_fname = request.form.get("first_name")
-		form_mname = request.form.get("middle_name")
-		form_lname = request.form.get("last_name")
-		form_role = request.form.get("role")
-
 		# Insert user into database & Remember which user has logged in
-		session["user_id"] = db.execute("INSERT INTO users (email, first_name, middle_name, last_name, hash, role, registered) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))", form_email, form_fname, form_mname, form_lname, generate_password_hash(form_password), form_role)
+		session["user_id"] = db.execute(
+			"INSERT INTO users (email, hash, role, first_name, middle_name, last_name, gender, dob, registered) VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))",
+			form_email,
+			generate_password_hash(form_password),
+			request.form.get("role"),
+			request.form.get("first_name"),
+			request.form.get("middle_name"),
+			request.form.get("last_name"),
+			request.form.get("gender"),
+			request.form.get("dob")
+			)
+		
+		# Save photo uploaded by user
+		photo = request.files['photo']
+		photo.save(os.path.join(profile_images_folder, secure_filename(str(session['user_id']) + '.jpg')))
 
 		# Redirect user to home page
 		return redirect("/")

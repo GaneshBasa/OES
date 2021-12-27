@@ -18,3 +18,9 @@ __pycache__/
 
 # ignore ALL files in ANY directory named venv
 .venv/
+
+# ignore ALL JPG files in profile_images
+static/profile_images/*.jpg
+
+# ignore ALL PDF files in scorecards
+static/scorecards/*.pdf
