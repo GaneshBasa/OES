@@ -467,7 +467,7 @@ def test():
 		# srvlog(f" Max : {max} | Attempted : {attempted} | Correct : {correct} ")
 
 		# Save Test Results
-		session["latestTest"] = db.execute("INSERT INTO tests (student_id, max, attempted, correct) VALUES (?, ?, ?, ?)", session.get("user_id"), max, attempted, correct)
+		session["latestTest"] = db.execute("INSERT INTO tests (taken_by, max, attempted, correct) VALUES (?, ?, ?, ?)", session.get("user_id"), max, attempted, correct)
 
 		if request.form["timeout"] == "True":
 			session["timeout"] = True
@@ -512,7 +512,7 @@ def result():
 
 	details = 'tests.id, first_name, middle_name, last_name, email, max, attempted, correct'
 
-	query = f"SELECT {details} FROM users JOIN tests ON users.id = tests.student_id WHERE users.id = {session.get('user_id')} ORDER BY tests.id DESC LIMIT 1"
+	query = f"SELECT {details} FROM users JOIN tests ON users.id = tests.taken_by WHERE users.id = {session.get('user_id')} ORDER BY tests.id DESC LIMIT 1"
 	# srvlog(query)
 
 	rows = db.execute(query)
