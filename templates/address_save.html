@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+<!-- TODO -->
+
+{% block main %}
+<form action="/address_save" method="post">
+    <!-- Line 1 -->
+    <div class="form-group">
+        <label class="form-label" for="line_1">Line 1 : </label>
+        <input class="form-control" name="line_1" placeholder="Line 1" type="text" required autofocus>
+    </div>
+
+    <!-- Line 2 -->
+    <div class="form-group">
+        <label class="form-label" for="line_2">Line 2 : </label>
+        <input class="form-control" name="line_2" placeholder="Line 2" type="text">
+    </div>
+
+    <!-- Landmark -->
+    <div class="form-group">
+        <label class="form-label" for="landmark">Landmark : </label>
+        <input class="form-control" name="landmark" placeholder="Landmark" type="text">
+    </div>
+
+    <!-- City -->
+    <div class="form-group">
+        <label class="form-label" for="city">City : </label>
+        <input class="form-control" name="city" placeholder="City" type="text" required>
+    </div>
+
+    <!-- District -->
+    <div class="form-group">
+        <label class="form-label" for="district">District : </label>
+        <input class="form-control" name="district" placeholder="District" type="text" required>
+    </div>
+
+    <!-- State -->
+    <div class="form-group">
+        <label class="form-label" for="state">State : </label>
+        <input class="form-control" name="state" placeholder="State" type="text" required>
+    </div>
+
+    <!-- PIN Code -->
+    <div class="form-group">
+        <label class="form-label" for="pin">PIN Code : </label>
+        <input class="form-control" name="pin" placeholder="PIN Code" type="text" required>
+    </div>
+
+    <!-- Submit Button -->
+    <button class="btn btn-primary" type="submit">Save Address</button>
+</form>
+{% endblock %}

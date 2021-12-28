@@ -110,8 +110,8 @@ def logout():
 
 
 # Register 1
-@app.route("/register_1", methods=["GET", "POST"])
-def register_1():
+@app.route("/register", methods=["GET", "POST"])
+def register():
 	"""Register user"""
 
 	# Check if user is logged in already and prevent accidental log out
@@ -167,17 +167,17 @@ def register_1():
 		photo.save(os.path.join(profile_images_folder, secure_filename(str(session['user_id']) + '.jpg')))
 
 		# Redirect user to Register 2
-		return redirect("/register_2")
+		return redirect("/address_save")
 
 	# User reached route via GET (as by clicking a link or via redirect)
 	else:
-		return render_template("register_1.html", roles = roles)
+		return render_template("register.html", roles = roles)
 
 
 # Register 2
-@app.route("/register_2", methods=["GET", "POST"])
-def register_2():
-	"""Register user"""
+@app.route("/address_save", methods=["GET", "POST"])
+def address_save():
+	"""Save Address"""
 
 	# User reached route via POST (as by submitting a form via POST)
 	if request.method == "POST":
@@ -232,7 +232,7 @@ def register_2():
 
 	# User reached route via GET (as by clicking a link or via redirect)
 	else:
-		return render_template("register_2.html", roles = roles)
+		return render_template("address_save.html")
 
 
 # Profile
