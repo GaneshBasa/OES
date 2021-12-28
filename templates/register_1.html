@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+<form action="/register_1" method="post" enctype="multipart/form-data">
+    <!-- Email -->
+    <div class="form-group">
+        <label for="email">Email Address : </label>
+        <input class="form-control" name="email" placeholder="Email Address" type="email" required autofocus>
+    </div>
+    <!-- First Name -->
+    <div class="form-group">
+        <label for="first_name">First Name : </label>
+        <input autocomplete="off" class="form-control" name="first_name" placeholder="First Name" type="text" required>
+    </div>
+    <!-- Middle Name -->
+    <div class="form-group">
+        <label for="middle_name">Middle Name : </label>
+        <input autocomplete="off" class="form-control" name="middle_name" placeholder="MIddle Name" type="text" required>
+    </div>
+    <!-- Last Name -->
+    <div class="form-group">
+        <label for="last_name">Last Name : </label>
+        <input autocomplete="off" class="form-control" name="last_name" placeholder="Last Name" type="text" required>
+    </div>
+    <!-- Gender -->
+    <div class="form-group">
+        <label for="gender">Gender : </label>
+        <select name="gender" required>
+            <option disabled selected value="">Gender</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+        </select>
+    </div>
+    <!-- DOB -->
+    <div class="form-group">
+        <label for="dob">Date of Birth : </label>
+        <input type="date" name="dob" required>
+    </div>
+    <!-- Photograph -->
+    <div class="form-group">
+        <label for="photo">Photograph : </label>
+        <input type="file" name="photo" accept=".jpg, .jpeg" required>
+        <br>
+        (Allowed File Formats : JPG & JPEG)
+    </div>
+    <!-- Password -->
+    <div class="form-group">
+        <label for="password">Enter Password : </label>
+        <input class="form-control" name="password" placeholder="Enter Password" type="password" required>
+    </div>
+    <!-- Confirmation -->
+    <div class="form-group">
+        <label for="confirmation">Confirm Password : </label>
+        <input class="form-control" name="confirmation" placeholder="Confirm Password" type="password" required>
+    </div>
+    <!-- Role -->
+    <div class="form-group">
+        <label for="role">User Role : </label>
+        <select name="role" required>
+            <option disabled selected value="">User Role</option>
+            {% for role in roles %}
+                <option value="{{ role }}">{{ role }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br> <br> <br> <br>
+    <button class="btn btn-primary" type="submit">Register</button>
+</form>
+{% endblock %}

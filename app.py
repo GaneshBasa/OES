@@ -109,9 +109,9 @@ def logout():
 	return redirect("/")
 
 
-# Register
-@app.route("/register", methods=["GET", "POST"])
-def register():
+# Register 1
+@app.route("/register_1", methods=["GET", "POST"])
+def register_1():
 	"""Register user"""
 
 	# Check if user is logged in already and prevent accidental log out
@@ -166,12 +166,73 @@ def register():
 		photo = request.files['photo']
 		photo.save(os.path.join(profile_images_folder, secure_filename(str(session['user_id']) + '.jpg')))
 
+		# Redirect user to Register 2
+		return redirect("/register_2")
+
+	# User reached route via GET (as by clicking a link or via redirect)
+	else:
+		return render_template("register_1.html", roles = roles)
+
+
+# Register 2
+@app.route("/register_2", methods=["GET", "POST"])
+def register_2():
+	"""Register user"""
+
+	# User reached route via POST (as by submitting a form via POST)
+	if request.method == "POST":
+		# TODO
+
+		# Ensure email was submitted
+		if not request.form.get("email"):
+			return apology("missing email")
+
+		form_email = request.form.get("email")
+
+		# Query database for email
+		rows = db.execute("SELECT * FROM users WHERE email = ?", form_email)
+
+		# Ensure email is not already taken
+		if len(rows) != 0:
+			return apology("email is already taken")
+
+		# Ensure Required Details were submitted
+		details = ['first_name', 'middle_name', 'last_name', 'password', 'confirmation']
+		for detail in details:
+			# Ensure Detail was submitted
+			if not request.form.get(detail):
+				return apology(f"missing {detail}")
+
+		form_password = request.form.get("password")
+		form_confirm = request.form.get("confirmation")
+
+		# Match passwords for confirmation
+		if form_password != form_confirm:
+			return apology("passwords don't match")
+
+		# Insert user into database & Remember which user has logged in
+		session["user_id"] = db.execute(
+			"INSERT INTO users (email, hash, role, first_name, middle_name, last_name, gender, dob, registered) VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))",
+			form_email,
+			generate_password_hash(form_password),
+			request.form.get("role"),
+			request.form.get("first_name"),
+			request.form.get("middle_name"),
+			request.form.get("last_name"),
+			request.form.get("gender"),
+			request.form.get("dob")
+			)
+		
+		# Save photo uploaded by user
+		photo = request.files['photo']
+		photo.save(os.path.join(profile_images_folder, secure_filename(str(session['user_id']) + '.jpg')))
+
 		# Redirect user to home page
 		return redirect("/")
 
 	# User reached route via GET (as by clicking a link or via redirect)
 	else:
-		return render_template("register.html", roles = roles)
+		return render_template("register_2.html", roles = roles)
 
 
 # Profile
