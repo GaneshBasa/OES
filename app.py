@@ -109,7 +109,7 @@ def logout():
 	return redirect("/")
 
 
-# Register 1
+# Register
 @app.route("/register", methods=["GET", "POST"])
 def register():
 	"""Register user"""
@@ -135,92 +135,55 @@ def register():
 		if len(rows) != 0:
 			return apology("email is already taken")
 
-		# Ensure Required Details were submitted
-		details = ['first_name', 'middle_name', 'last_name', 'password', 'confirmation']
-		for detail in details:
+		# Ensure Required User Details were submitted
+		user_details = ['contact', 'first_name', 'middle_name', 'last_name', 'gender', 'dob', 'password', 'confirmation', 'role']
+		for user_detail in user_details:
 			# Ensure Detail was submitted
-			if not request.form.get(detail):
-				return apology(f"missing {detail}")
-
-		form_password = request.form.get("password")
-		form_confirm = request.form.get("confirmation")
-
-		# Match passwords for confirmation
-		if form_password != form_confirm:
-			return apology("passwords don't match")
-
-		# Insert user into database & Remember which user has logged in
-		session["user_id"] = db.execute(
-			"INSERT INTO users (email, hash, role, first_name, middle_name, last_name, gender, dob, registered) VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))",
-			form_email,
-			generate_password_hash(form_password),
-			request.form.get("role"),
-			request.form.get("first_name"),
-			request.form.get("middle_name"),
-			request.form.get("last_name"),
-			request.form.get("gender"),
-			request.form.get("dob")
-			)
+			if not request.form.get(user_detail):
+				return apology(f"missing {user_detail}")
 		
-		# Save photo uploaded by user
-		photo = request.files['photo']
-		photo.save(os.path.join(profile_images_folder, secure_filename(str(session['user_id']) + '.jpg')))
-
-		# Redirect user to Register 2
-		return redirect("/address_save")
-
-	# User reached route via GET (as by clicking a link or via redirect)
-	else:
-		return render_template("register.html", roles = roles)
-
-
-# Register 2
-@app.route("/address_save", methods=["GET", "POST"])
-def address_save():
-	"""Save Address"""
-
-	# User reached route via POST (as by submitting a form via POST)
-	if request.method == "POST":
-		# TODO
-
-		# Ensure email was submitted
-		if not request.form.get("email"):
-			return apology("missing email")
-
-		form_email = request.form.get("email")
-
-		# Query database for email
-		rows = db.execute("SELECT * FROM users WHERE email = ?", form_email)
-
-		# Ensure email is not already taken
-		if len(rows) != 0:
-			return apology("email is already taken")
-
-		# Ensure Required Details were submitted
-		details = ['first_name', 'middle_name', 'last_name', 'password', 'confirmation']
-		for detail in details:
+		# Ensure Required Address Details were submitted
+		address_details = ['line_1', 'city', 'district', 'state', 'pin']
+		for address_detail in address_details:
 			# Ensure Detail was submitted
-			if not request.form.get(detail):
-				return apology(f"missing {detail}")
-
-		form_password = request.form.get("password")
-		form_confirm = request.form.get("confirmation")
+			if not request.form.get(address_detail):
+				return apology(f"missing {address_detail}")
 
 		# Match passwords for confirmation
+		form_password = request.form.get("password")
+		form_confirm = request.form.get("confirmation")
 		if form_password != form_confirm:
 			return apology("passwords don't match")
 
-		# Insert user into database & Remember which user has logged in
+		# Insert required address details into database
+		address_id = db.execute(
+			f"INSERT INTO addresses ({', '.join(address_details)}) VALUES ({'?, ' * (len(address_details) - 1)}?)",
+			request.form.get("line_1"),
+			request.form.get("city"),
+			request.form.get("district"),
+			request.form.get("state"),
+			request.form.get("pin")
+		)
+
+		# Add nullable addresss details into database
+		if request.form.get('line_2'):
+			db.execute("UPDATE addresses SET line_2 = ? WHERE id = ?", request.form.get('line_2'), address_id)
+		if request.form.get('landmark'):
+			db.execute("UPDATE addresses SET landmark = ? WHERE id = ?", request.form.get('landmark'), address_id)
+		
+		# Insert user details into database & log the user in
 		session["user_id"] = db.execute(
-			"INSERT INTO users (email, hash, role, first_name, middle_name, last_name, gender, dob, registered) VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))",
+			f"INSERT INTO users (email, contact, hash, role, first_name, middle_name, last_name, gender, dob, registered, address_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), ?)",
 			form_email,
+			request.form.get("contact"),
 			generate_password_hash(form_password),
 			request.form.get("role"),
 			request.form.get("first_name"),
 			request.form.get("middle_name"),
 			request.form.get("last_name"),
 			request.form.get("gender"),
-			request.form.get("dob")
+			request.form.get("dob"),
+			address_id
 			)
 		
 		# Save photo uploaded by user
@@ -232,7 +195,7 @@ def address_save():
 
 	# User reached route via GET (as by clicking a link or via redirect)
 	else:
-		return render_template("address_save.html")
+		return render_template("register.html", roles = roles)
 
 
 # Profile
