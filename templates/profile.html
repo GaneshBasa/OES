@@ -29,6 +29,11 @@
                 {% endif %}
             </td>
         </tr>
+        <!-- Contact -->
+        <tr>
+            <td>Contact</td>
+            <td>{{ session.contact }}</td>
+        </tr>
         <!-- First Name -->
         <tr>
             <td>First Name</td>
@@ -43,6 +48,22 @@
         <tr>
             <td>Last Name</td>
             <td>{{ session.last_name }}</td>
+        </tr>
+        <!-- Gender -->
+        <tr>
+            <td>Gender</td>
+            <td>
+                {% if session.gender == 'M' %}
+                Male
+                {% else %}
+                Female
+                {% endif %}
+            </td>
+        </tr>
+        <!-- Date of Birth -->
+        <tr>
+            <td>Date of Birth</td>
+            <td>{{ session.dob }}</td>
         </tr>
         <!-- Role -->
         <tr>
@@ -64,6 +85,40 @@
                 Pending Approval
                 {% endif %}
             </td>
+        </tr>
+        <!-- Address -->
+        <tr>
+            <td>Address</td>
+            <td>
+                {{ session.line_1 }},
+                <br>
+                {{ session.line_2 }}
+            </td>
+        </tr>
+        <!-- Landmark -->
+        <tr>
+            <td>Landmark</td>
+            <td>{{ session.landmark }}</td>
+        </tr>
+        <!-- City -->
+        <tr>
+            <td>City</td>
+            <td>{{ session.city }}</td>
+        </tr>
+        <!-- District -->
+        <tr>
+            <td>District</td>
+            <td>{{ session.district }}</td>
+        </tr>
+        <!-- State -->
+        <tr>
+            <td>State</td>
+            <td>{{ session.state }}</td>
+        </tr>
+        <!-- PIN Code -->
+        <tr>
+            <td>PIN Code</td>
+            <td>{{ session.pin }}</td>
         </tr>
     </tbody>
 </table>

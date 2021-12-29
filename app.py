@@ -40,6 +40,7 @@ roles = ['Admin', 'Teacher', 'Student']
 # Default Rows of Data per Page & Pagination Gap
 def_rows_per_page = 10
 def_gap = 2
+# Profile Images Folder
 profile_images_folder = 'D:\Documents\Projects\OES\static\profile_images'
 
 
@@ -50,7 +51,7 @@ profile_images_folder = 'D:\Documents\Projects\OES\static\profile_images'
 @app.route("/")
 @login_required
 def home():
-	rows = db.execute("SELECT * FROM users WHERE id = ?", session.get("user_id"))
+	rows = db.execute("SELECT * FROM users JOIN addresses ON users.address_id = addresses.id WHERE users.id = ?", session.get("user_id"))
 
 	for detail in rows[0]:
 		session[detail] = rows[0][detail]

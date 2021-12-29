@@ -8,7 +8,7 @@
     <h2>Welcome {{ session.first_name }} {{ session.middle_name }} {{ session.last_name }}</h2>
     <br> <br>
     <h3>User Role : {{ session.role }}</h3>
-    <br><br>
+    <br> <br>
     {% if session.role == "Admin" %}
     <a class="btn btn-primary" href="/unapproved">Approve Users</a>
     {% endif %}
