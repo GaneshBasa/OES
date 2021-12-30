@@ -42,6 +42,8 @@ def_rows_per_page = 10
 def_gap = 2
 # Profile Images Folder
 profile_images_folder = 'D:\Documents\Projects\OES\static\profile_images'
+# Number of Questions per Test
+test_size = 10
 
 
 """ Routes """
@@ -517,7 +519,7 @@ def test():
 		return redirect("/submit")
 	else:
 		# Select a fixed number of questions at random
-		rows = db.execute("SELECT id, question, option_a, option_b, option_c, option_d FROM questions ORDER BY RANDOM() LIMIT 10")
+		rows = db.execute("SELECT id, question, option_a, option_b, option_c, option_d FROM questions ORDER BY RANDOM() LIMIT ?", test_size)
 
 		session["Qids"] = []
 		for row in rows:
