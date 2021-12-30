@@ -8,30 +8,58 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <td>Detail</td>
-            <td>Value</td>
+            <th>Detail</th>
+            <th>Value</th>
         </tr>
     </thead>
     <tbody>
+        <!-- Profile Image -->
+        <tr>
+            <td>Photograph</td>
+            <td>
+                <img src="/static/profile_images/{{ session.user_id }}.jpg" alt="Image not found or uploaded" height="200">
+            </td>
+        </tr>
         <!-- First Name -->
         <tr>
             <td>First Name</td>
-            <td>{{ details['first_name'] }}</td>
+            <td>{{ session.first_name }}</td>
         </tr>
         <!-- Middle Name -->
         <tr>
             <td>Middle Name</td>
-            <td>{{ details['middle_name'] }}</td>
+            <td>{{ session.middle_name }}</td>
         </tr>
         <!-- Last Name -->
         <tr>
             <td>Last Name</td>
-            <td>{{ details['last_name'] }}</td>
+            <td>{{ session.last_name }}</td>
         </tr>
         <!-- Email -->
         <tr>
             <td>Email</td>
-            <td>{{ details['email'] }}</td>
+            <td>{{ session.email }}</td>
+        </tr>
+        <!-- Contact -->
+        <tr>
+            <td>Contact</td>
+            <td>{{ session.contact }}</td>
+        </tr>
+        <!-- Gender -->
+        <tr>
+            <td>Gender</td>
+            <td>
+                {% if session.gender == 'M' %}
+                Male
+                {% else %}
+                Female
+                {% endif %}
+            </td>
+        </tr>
+        <!-- Date of Birth -->
+        <tr>
+            <td>Date of Birth</td>
+            <td>{{ session.dob }}</td>
         </tr>
         <!-- Number of Questions (Maximum) -->
         <tr>
@@ -48,23 +76,28 @@
             <td>Number of Questions (Correct)</td>
             <td>{{ details['correct'] }}</td>
         </tr>
-        <!-- Percentage Score -->
+        <!-- Percentage -->
         <tr>
-            <td>Percentage Score</td>
+            <td>Percentage</td>
         {% if details['correct'] and details['max'] %}
-            <td>{{ details['correct'] / details['max'] * 100 }} %</td>
+            <td>{{ "{:.2f}".format(details['correct'] / details['max'] * 100) }} %</td>
         {% else %}
-            <td>{{ 0.00 }} %</td>
+            <td>{{ "{:.2f}".format(0) }} %</td>
         {% endif %}
         </tr>
         <!-- Accuracy -->
         <tr>
             <td>Accuracy</td>
         {% if details['correct'] and details['attempted'] %}
-            <td>{{ details['correct'] / details['attempted'] * 100 }} %</td>
+            <td>{{ "{:.2f}".format(details['correct'] / details['attempted'] * 100) }} %</td>
         {% else %}
-            <td>{{ 0.00 }} %</td>
+            <td>{{ "{:.2f}".format(0) }} %</td>
         {% endif %}
+        </tr>
+        <!-- Test Date & Time -->
+        <tr>
+            <td>Test Date & Time</td>
+            <td>{{ details['start'] }}</td>
         </tr>
     </tbody>
 </table>

@@ -550,7 +550,7 @@ def result():
 	if session.get("role") != "Student":
 		return apology("unauthorized action")
 
-	details = 'tests.id, first_name, middle_name, last_name, email, max, attempted, correct'
+	details = 'tests.id, first_name, middle_name, last_name, email, max, attempted, correct, start'
 
 	query = f"SELECT {details} FROM users JOIN tests ON users.id = tests.taken_by WHERE users.id = {session.get('user_id')} ORDER BY tests.id DESC LIMIT 1"
 	# srvlog(query)
