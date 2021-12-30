@@ -203,7 +203,7 @@ def register():
 @app.route("/profile")
 @login_required
 def profile():
-		return render_template("profile.html")
+	return render_template("profile.html")
 
 
 # Forgot
@@ -341,13 +341,16 @@ def approve():
 		return apology("unauthorized action")
 
 	if request.method == "POST":
+		
 		db.execute("UPDATE users SET approved = 1, approved_by = ? WHERE id = ?", session.get("user_id"), request.form.get("id"))
 		return redirect("/unapproved")
+
 	else:
+
 		if not request.args.get("id"):
 			return apology("missing user id for approval")
 
-		rows = db.execute("SELECT email, first_name, middle_name, last_name, role, registered FROM users WHERE id = ? AND verified = 1 AND approved = 0", request.args.get("id"))
+		rows = db.execute("SELECT * FROM users JOIN addresses ON users.address_id = addresses.id WHERE users.id = ? AND verified = 1 AND approved = 0", request.args.get("id"))
 
 		if len(rows) == 0:
 			return apology("specified user not found")

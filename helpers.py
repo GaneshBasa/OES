@@ -7,9 +7,31 @@ from functools import wraps
 from secrets import randbelow
 import smtplib
 from textwrap import dedent
+import string
+import random
+
 
 source = 'oes.test.email.id@gmail.com'
 password = 'JBD4TF{kdgLxeqvH'
+
+## characters to generate password from
+characters = list(string.ascii_letters + string.digits)
+
+def generate_random_password(length):
+	## shuffling the characters
+	random.shuffle(characters)
+	
+	## picking random characters from the list
+	password = []
+	for i in range(length):
+		password.append(random.choice(characters))
+
+	## shuffling the resultant password
+	random.shuffle(password)
+
+	## converting the list to string
+	## printing the list
+	return "".join(password)
 
 
 def srvlog(data):

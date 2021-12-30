@@ -13,10 +13,22 @@
         </tr>
     </thead>
     <tbody>
+        <!-- Profile Image -->
+        <tr>
+            <td>Photograph</td>
+            <td>
+                <img src="/static/profile_images/{{ details['id'] }}.jpg" alt="Image not found or uploaded" height="200">
+            </td>
+        </tr>
         <!-- Email -->
         <tr>
             <td>Email</td>
             <td>{{ details['email'] }}</td>
+        </tr>
+        <!-- Contact -->
+        <tr>
+            <td>Contact</td>
+            <td>{{ details['contact'] }}</td>
         </tr>
         <!-- First Name -->
         <tr>
@@ -33,6 +45,22 @@
             <td>Last Name</td>
             <td>{{ details['last_name'] }}</td>
         </tr>
+        <!-- Gender -->
+        <tr>
+            <td>Gender</td>
+            <td>
+                {% if details['gender'] == 'M' %}
+                Male
+                {% else %}
+                Female
+                {% endif %}
+            </td>
+        </tr>
+        <!-- Date of Birth -->
+        <tr>
+            <td>Date of Birth</td>
+            <td>{{ details['dob'] }}</td>
+        </tr>
         <!-- Role -->
         <tr>
             <td>Role</td>
@@ -43,6 +71,41 @@
             <td>Registered On</td>
             <td>{{ details['registered'] }}</td>
         </tr>
+        <!-- Address -->
+        <tr>
+            <td>Address</td>
+            <td>
+                {{ details['line_1'] }},
+                <br>
+                {{ details['line_2'] }}
+            </td>
+        </tr>
+        <!-- Landmark -->
+        <tr>
+            <td>Landmark</td>
+            <td>{{ details['landmark'] }}</td>
+        </tr>
+        <!-- City -->
+        <tr>
+            <td>City</td>
+            <td>{{ details['city'] }}</td>
+        </tr>
+        <!-- District -->
+        <tr>
+            <td>District</td>
+            <td>{{ details['district'] }}</td>
+        </tr>
+        <!-- State -->
+        <tr>
+            <td>State</td>
+            <td>{{ details['state'] }}</td>
+        </tr>
+        <!-- PIN Code -->
+        <tr>
+            <td>PIN Code</td>
+            <td>{{ details['pin'] }}</td>
+        </tr>
+    </tbody>
 </table>
 <form method="post" action="/approve" class="inline">
     <input type="hidden" name="id" value="{{ id }}">
