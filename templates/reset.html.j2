@@ -1,14 +1,14 @@
-{% extends "layout.html" %}
+{% extends "layout.html.j2" %}
 
 {% block title %}
-    Change Password
+    Reset Password
 {% endblock %}
 
 {% block main %}
-    <form action="/change" method="post">
-        <!-- Old Password -->
+    <form autocomplete="off" action="/reset" method="post">
+        <!-- OTP -->
         <div class="form-group">
-            <input class="form-control" name="old" placeholder="Enter Old Password" type="password" required autofocus>
+            <input class="form-control" name="otp" placeholder="Enter OTP" type="text" required autofocus>
         </div>
         <!-- New Password -->
         <div class="form-group">
@@ -19,6 +19,6 @@
             <input class="form-control" name="confirmation" placeholder="Confirm New Password" type="password" required>
         </div>
         <!-- Submit -->
-        <button class="btn btn-primary" type="submit">Change Password</button>
+        <button class="btn btn-primary" type="submit">Reset Password</button>
     </form>
 {% endblock %}

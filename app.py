@@ -58,7 +58,7 @@ def home():
 	for detail in rows[0]:
 		session[detail] = rows[0][detail]
 
-	return render_template("home.html")
+	return render_template("home.html.j2")
 
 
 # Login
@@ -97,7 +97,7 @@ def login():
 
 	# User reached route via GET (as by clicking a link or via redirect)
 	else:
-		return render_template("login.html")
+		return render_template("login.html.j2")
 
 
 # Logout
@@ -198,14 +198,14 @@ def register():
 
 	# User reached route via GET (as by clicking a link or via redirect)
 	else:
-		return render_template("register.html", roles = roles)
+		return render_template("register.html.j2", roles = roles)
 
 
 # Profile
 @app.route("/profile")
 @login_required
 def profile():
-	return render_template("profile.html")
+	return render_template("profile.html.j2")
 
 
 # Forgot
@@ -226,7 +226,7 @@ def forgot():
 
 		return redirect("/reset")
 	else:
-		return render_template("forgot.html")
+		return render_template("forgot.html.j2")
 
 
 # Reset
@@ -265,7 +265,7 @@ def reset():
 		# Redirect user to home page
 		return redirect("/")
 	else:
-		return render_template("reset.html")
+		return render_template("reset.html.j2")
 
 
 # Change
@@ -297,7 +297,7 @@ def pwchange():
 		db.execute("UPDATE users SET hash = ? WHERE id = ?", generate_password_hash(form_password), session["user_id"])
 		return redirect("/")
 	else:
-		return render_template("pwchange.html")
+		return render_template("pwchange.html.j2")
 
 
 # Verify
@@ -316,7 +316,7 @@ def verify():
 			OTP = sendOTP(session.get("email"))
 			if OTP:
 				session["OTP"] = OTP
-				return render_template("verify.html")
+				return render_template("verify.html.j2")
 			else:
 				return apology("unable to send verification email")
 		else:
@@ -332,7 +332,7 @@ def unapproved():
 
 	rows = db.execute("SELECT id, email, role FROM users WHERE verified = 1 AND approved = 0")
 
-	return render_template("unapproved.html", users = rows)
+	return render_template("unapproved.html.j2", users = rows)
 
 
 # Approve
@@ -357,7 +357,7 @@ def approve():
 		if len(rows) == 0:
 			return apology("specified user not found")
 
-		return render_template("approve.html", details = rows[0], id = request.args.get("id"))
+		return render_template("approve.html.j2", details = rows[0], id = request.args.get("id"))
 
 
 # Add
@@ -392,7 +392,7 @@ def add():
 
 		return redirect("/questions")
 	else:
-		return render_template("add.html", options = options)
+		return render_template("add.html.j2", options = options)
 
 
 # Questions
@@ -419,7 +419,7 @@ def questions():
 	offset = (page - 1) * def_rows_per_page
 	rows = db.execute("SELECT id, question FROM questions ORDER BY id LIMIT ? OFFSET ?", def_rows_per_page, offset)
 
-	return render_template("questions.html", questions = rows, page = page, pages = pages, gap = def_gap)
+	return render_template("questions.html.j2", questions = rows, page = page, pages = pages, gap = def_gap)
 
 
 # Update
@@ -456,7 +456,7 @@ def update():
 		if len(rows) == 0:
 			return apology("specified question not found")
 
-		return render_template("update.html", options = options, details = rows[0])
+		return render_template("update.html.j2", options = options, details = rows[0])
 
 
 # Test
@@ -527,7 +527,7 @@ def test():
 
 		# session["test_start"] =
 
-		return render_template("test.html", questions = rows)
+		return render_template("test.html.j2", questions = rows)
 
 
 # Submit
@@ -540,7 +540,7 @@ def submit():
 	# srvlog(type(session.get("timeout")))
 	# srvlog(session.get("timeout"))
 
-	return render_template("submit.html", timeout = session.get("timeout"))
+	return render_template("submit.html.j2", timeout = session.get("timeout"))
 
 
 #Result
@@ -558,7 +558,7 @@ def result():
 	rows = db.execute(query)
 	# srvlog(rows)
 
-	return render_template("result.html", details = rows[0])
+	return render_template("result.html.j2", details = rows[0])
 
 # Feedback
 @app.route("/feedback", methods=["GET", "POST"])
@@ -580,7 +580,7 @@ def feedback():
 
 		return redirect("/")
 	else:
-		return render_template("feedback.html")
+		return render_template("feedback.html.j2")
 
 
 # Handle error
